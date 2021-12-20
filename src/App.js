@@ -1,39 +1,33 @@
 import './App.css';
 import Pop from "./component/Pop";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Search from "./component/Search";
-import Register from "./component/login";
+import {Link, Route, Switch} from "react-router-dom";
 import Registration from "./component/Registration";
 
-
-
-
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <div className="header-content">
-          <a href="./" className="header__logo">Movie Theater</a>
-        </div>
-          <Router>
-              <Switch>
-                  <Route exact path='/login' component={Registration}/>
-              </Switch>
-          </Router>
+    return (
+        <div className="App">
+            <header className="App-header">
+                <div className="header-content">
+                    <Link to={"/"} className="header__logo">Movie Theater</Link>
+                </div>
 
-          <form>
-              <input type="text" className="header__search" placeholder="Поиск"/>
-              {/*<Search/>*/}
-          </form>
-     </header>
+                <Switch>
+                    <Route exact path='/login' component={Registration}/>
+                </Switch>
 
-      <div className="container">
-        <div className="movies">
-            <Pop/>
+                <form>
+                    <input type="text" className="header__search" placeholder="Поиск"/>
+                    {/*<Search/>*/}
+                </form>
+            </header>
+
+            <div className="container">
+                <div className="movies">
+                    <Pop/>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 

@@ -1,31 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../App.css"
-const API_KEY = "df68ea5f-bb20-433a-8429-cdb744c64b37";
-const API_URL_POPULAR = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1"
+import {API_URL_POPULAR, getClassByRate, getMovies} from "../api";
 
 const Pop = () => {
-    getMovies(API_URL_POPULAR);
-    async function getMovies(url) {
-        const resp = await fetch(url, {
-            headers: {
-                "Content-Type": "application/json",
-                "X-API-KEY": API_KEY,
-            },
-        });
-        const respData = await resp.json();
-        showMovies(respData);
 
-    }
+    useEffect(()=>{
+        getMovies(API_URL_POPULAR).then((res)=>showMovies(res));
+    },[])
 
-    function getClassByRate(vote) {
-        if (vote >= 7) {
-            return "green";
-        } else if (vote > 5) {
-            return "orange";
-        } else {
-            return "red";
-        }
-    }
+
 // контейнер с фильмами
     function showMovies(data) {
         const moviesEl = document.querySelector(".movies");
