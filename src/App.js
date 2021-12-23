@@ -2,31 +2,50 @@ import './App.css';
 import Pop from "./component/Pop";
 import {Link, Route, Switch} from "react-router-dom";
 import Registration from "./component/Registration";
+import {createContext, useState} from "react";
+
+export const AppContext = createContext(null)
 
 function App() {
+
+    const [input, setInput] = useState('')
+    const [keyword, setKeyword] = useState('')
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        setKeyword(input)
+    }
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <div className="header-content">
-                    <Link to={"/"} className="header__logo">Movie Theater</Link>
-                </div>
+        <AppContext.Provider value={{keyword}}>
+            <div className="App">
+                <header className="App-header">
+                    <div className="header-content">
+                        <Link to={"/"} className="header__logo">Movie Theater</Link>
+                    </div>
 
-                <Switch>
-                    <Route exact path='/login' component={Registration}/>
-                </Switch>
+                    <Switch>
+                        <Route exact path='/login' component={Registration}/>
+                    </Switch>
 
-                <form>
-                    <input type="text" className="header__search" placeholder="Поиск"/>
-                    {/*<Search/>*/}
-                </form>
-            </header>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text"
+                               className="header__search"
+                               placeholder="Поиск"
+                               value={input}
+                               onChange={event => setInput(event.target.value)}
+                        />
+                        {/*<Search/>*/}
+                    </form>
+                </header>
 
-            <div className="container">
-                <div className="movies">
-                    <Pop/>
+                <div className="container">
+                    <div className="movies">
+                        <Pop/>
+                    </div>
                 </div>
             </div>
-        </div>
+        </AppContext.Provider>
     );
 }
 

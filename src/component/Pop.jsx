@@ -1,12 +1,33 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import "../App.css"
-import {API_URL_POPULAR, getClassByRate, getMovies} from "../api";
+import {API_KEY, API_URL_POPULAR, API_URL_SEARCH, getClassByRate} from "../api";
+import axios from "axios";
+import {AppContext} from "../App";
 
 const Pop = () => {
+    const {keyword} = useContext(AppContext)
+    useEffect(() => {
+        getMovies(API_URL_POPULAR).then((res) => showMovies(res));
+    }, [])
 
-    useEffect(()=>{
-        getMovies(API_URL_POPULAR).then((res)=>showMovies(res));
-    },[])
+    async function getMovies(url) {
+        const res = await axios.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-KEY": API_KEY,
+            },
+        })
+        return res.data
+
+    }
+
+    useEffect(() => {
+        if (keyword) {
+            console.log(keyword)
+            getMovies(API_URL_SEARCH + keyword).then((res) => showMovies(res));
+        }
+
+    }, [keyword])
 
 
 // контейнер с фильмами
@@ -48,6 +69,7 @@ const Pop = () => {
 
         });
     }
+
     return (
         <div>
 

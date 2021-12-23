@@ -1,39 +1,33 @@
 import React from 'react';
-const API_KEY = "df68ea5f-bb20-433a-8429-cdb744c64b37";
-// const API_URL_POPULAR =
-//     "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=1"
-const API_URL_SEARCH =
-    "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=";
+import {API_KEY, API_URL_SEARCH} from "../api";
+import axios from "axios";
 
 const Search = () => {
     // getMovies(API_URL_POPULAR);
     async function getMovies(url) {
-        const resp = await fetch(url, {
+        const res = await axios.get(url, {
             headers: {
                 "Content-Type": "application/json",
                 "X-API-KEY": API_KEY,
             },
-        });
-        const respData = await resp.json();
-        Search(respData);
+        })
+        Search(res.data);
 
     }
-    const form = document.querySelector("form");
-    const search = document.querySelector(".header__search");
 
-    form.addEventListener("submit", (e) => {
+    function handleSearch(e){
         e.preventDefault();
+        console.log("handleSearch",handleSearch)
 
-        const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
-        if (search.value) {
-            getMovies(apiSearchUrl);
-
-            search.value = "";
-        }
-    });
+        // const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
+        // if (search.value) {
+        //     getMovies(apiSearchUrl);
+        //
+        //     search.value = "";
+        // }
+    }
     return (
-        <form>
-
+        <form onSubmit={handleSearch}>
 
         </form>
     );
