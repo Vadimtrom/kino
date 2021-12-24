@@ -1,39 +1,54 @@
+import {createContext, useState} from "react";
 import './App.css';
 import Pop from "./component/Pop";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Search from "./component/Search";
-import Register from "./component/login";
-import Registration from "./component/Registration";
+import {Link, Route, Switch} from "react-router-dom";
+import Header from "./component/Header/Header";
+import SignIn from "./component/Pages/SignIn";
 
 
 
+export const AppContext = createContext(null)
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <div className="header-content">
-          <a href="./" className="header__logo">Movie Theater</a>
-        </div>
-          <Router>
-              <Switch>
-                  <Route exact path='/login' component={Registration}/>
-              </Switch>
-          </Router>
 
-          <form>
-              <input type="text" className="header__search" placeholder="Поиск"/>
-              {/*<Search/>*/}
-          </form>
-     </header>
+    const [input, setInput] = useState('')
+    const [keyword, setKeyword] = useState('')
 
-      <div className="container">
-        <div className="movies">
-            <Pop/>
-        </div>
-      </div>
-    </div>
-  );
+    function handleSubmit(e) {
+        e.preventDefault()
+        setKeyword(input)
+    }
+
+    return (
+        <AppContext.Provider value={{keyword}}>
+            <div className="App">
+                <header className="App-header">
+                    <div className="header-content">
+                        <Link to={"/"} className="header__logo">Movie Theater</Link>
+                    </div>
+                    <Header/>
+                    <SignIn/>
+
+
+                    <form onSubmit={handleSubmit}>
+                        <input type="text"
+                               className="header__search"
+                               placeholder="Поиск"
+                               value={input}
+                               onChange={event => setInput(event.target.value)}
+                        />
+
+                    </form>
+                </header>
+
+                <div className="container">
+                    <div className="movies">
+                        <Pop/>
+                    </div>
+                </div>
+            </div>
+        </AppContext.Provider>
+    );
 }
 
 
